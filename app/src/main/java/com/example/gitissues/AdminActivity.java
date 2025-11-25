@@ -26,7 +26,7 @@ public class AdminActivity extends AppCompatActivity {
         ListView listUsers = findViewById(R.id.listUsers);
         Button btnBack = findViewById(R.id.btnBack);
 
-        // Mock user list – later this can come from the Room database
+        // user list – later this can come from the Room database
         String[] users = new String[]{
                 "testuser1  -  regular user",
                 "admin2     -  ADMIN",

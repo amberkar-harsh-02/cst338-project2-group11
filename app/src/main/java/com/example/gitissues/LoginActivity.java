@@ -33,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
             boolean isAdmin = false;
             boolean valid = false;
 
-            // Temporary hard-coded users (matches assignment)
+            // Temporary hard-coded users
             if (u.equals("testuser1") && p.equals("testuser1")) {
                 valid = true;
                 isAdmin = false;
