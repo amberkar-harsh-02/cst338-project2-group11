@@ -13,13 +13,19 @@ import com.example.gitissues.R;
 import models.SavingsGoal;
 
 import java.util.List;
+import java.util.Locale;
 
 public class SavingsGoalAdapter extends RecyclerView.Adapter<SavingsGoalAdapter.VH> {
 
-    private final List<SavingsGoal> data;
+    private List<SavingsGoal> data;
 
     public SavingsGoalAdapter(List<SavingsGoal> data) {
         this.data = data;
+    }
+
+    public void setData(List<SavingsGoal> newData) {
+        this.data = newData;
+        notifyDataSetChanged();
     }
 
     static class VH extends RecyclerView.ViewHolder {
@@ -34,8 +40,7 @@ public class SavingsGoalAdapter extends RecyclerView.Adapter<SavingsGoalAdapter.
         }
     }
 
-    @NonNull
-    @Override
+    @NonNull @Override
     public VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_goal, parent, false);
@@ -45,13 +50,20 @@ public class SavingsGoalAdapter extends RecyclerView.Adapter<SavingsGoalAdapter.
     @Override
     public void onBindViewHolder(@NonNull VH holder, int position) {
         SavingsGoal g = data.get(position);
+
         holder.tvName.setText(g.name);
-        holder.tvAmount.setText(g.amountText);
-        holder.progress.setProgress(g.progressPct);
+
+        // Format: "$250.00 / $1000.00"
+        String progressText = String.format(Locale.US, "$%.0f / $%.0f", g.currentAmount, g.targetAmount);
+        holder.tvAmount.setText(progressText);
+
+        // Use the model's helper to get integer percentage
+        holder.progress.setProgress(g.getProgressPercent());
     }
 
     @Override
     public int getItemCount() {
+        if (data == null) return 0;
         return data.size();
     }
 }
