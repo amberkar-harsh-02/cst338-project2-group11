@@ -3,7 +3,7 @@ package com.example.gitissues;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-public class Session {
+public class    Session {
     private static final String PREF = "session";
     private static final String KEY_USER = "username";
     private static final String KEY_ADMIN = "is_admin";

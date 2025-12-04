@@ -1,10 +1,28 @@
 package models;
 
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.PrimaryKey;
+
+@Entity(tableName = "transactions",
+        foreignKeys = @ForeignKey(entity = Account.class,
+                parentColumns = "accountId",
+                childColumns = "accountId",
+                onDelete = ForeignKey.CASCADE))
 public class Transaction {
-    public final String type;   // Deposit, Withdrawal, Transfer...
-    public final String amount; // "$120.00"
-    public final String date;   // "2025-11-12"
-    public Transaction(String type, String amount, String date) {
-        this.type = type; this.amount = amount; this.date = date;
+
+    @PrimaryKey(autoGenerate = true)
+    public int transactionId;
+
+    public int accountId;
+    public String type;    // Deposit, Withdrawal, Transfer
+    public double amount;  // stored as number
+    public long timestamp; // stored as milliseconds
+
+    public Transaction(int accountId, String type, double amount, long timestamp) {
+        this.accountId = accountId;
+        this.type = type;
+        this.amount = amount;
+        this.timestamp = timestamp;
     }
 }
