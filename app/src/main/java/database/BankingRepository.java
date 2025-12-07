@@ -73,6 +73,18 @@ public class BankingRepository {
             return null;
         }
     }
+    public List<User> getAllUsers() {
+        Future<List<User>> future = AppDatabase.databaseWriteExecutor.submit(userDao::getAllUsers);
+        try {
+            return future.get();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public void deleteUser(User user) {
+        AppDatabase.databaseWriteExecutor.execute(() -> userDao.delete(user));
+    }
 
     // --- ACCOUNT OPERATIONS ---
 
@@ -92,6 +104,32 @@ public class BankingRepository {
         try {
             return future.get();
         } catch (Exception e) { return null; }
+    }
+    public void performTransaction(Transaction t) {
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            // 1. Get the account to update
+            Account account = accountDao.getAccountById(t.accountId);
+
+            if (account == null) return; // Safety check
+
+            // 2. Calculate new balance
+            if ("Deposit".equals(t.type)) {
+                account.balance += t.amount;
+            } else if ("Withdrawal".equals(t.type) || "Transfer".equals(t.type)) {
+                // Optional: Check for overdraft here
+                if (account.balance >= t.amount) {
+                    account.balance -= t.amount;
+                } else {
+                    // Not enough money! We could throw an error or handle it.
+                    // For now, we just cancel the operation.
+                    return;
+                }
+            }
+
+            // 3. Update the Database tables
+            accountDao.update(account); // Save new balance
+            transactionDao.insert(t);   // Save history record
+        });
     }
 
     // --- GOAL OPERATIONS ---

@@ -23,7 +23,7 @@ public class Session {
     }
 
     public static void logout(Context c) {
-        prefs(c).edit().clear().apply();
+        prefs(c).edit().clear().apply(); // This wipes ALL data
     }
 
     public static boolean isLoggedIn(Context c) {

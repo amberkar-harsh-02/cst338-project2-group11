@@ -19,6 +19,14 @@ public class LandingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing);
 
+        // This pushes the content down/up so it doesn't overlap the battery or home bar.
+        androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.landing_root), (v, insets) -> {
+            androidx.core.graphics.Insets systemBars = insets.getInsets(androidx.core.view.WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+        // -----------------------------------------------------
+
         // Load default fragment: Goals
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
@@ -27,9 +35,9 @@ public class LandingActivity extends AppCompatActivity {
         }
 
         // Handle bottom navigation switching
-        BottomNavigationView nav = findViewById(R.id.bottom_nav);
+        com.google.android.material.bottomnavigation.BottomNavigationView nav = findViewById(R.id.bottom_nav);
         nav.setOnItemSelectedListener(item -> {
-            Fragment f;
+            androidx.fragment.app.Fragment f;
             if (item.getItemId() == R.id.nav_goals) {
                 f = new GoalsFragment();
             } else {
@@ -42,19 +50,24 @@ public class LandingActivity extends AppCompatActivity {
             return true;
         });
 
-        // --- Admin button (only visible for admins) ---
-        Button btnAdmin = findViewById(R.id.btnAdmin);
-        btnAdmin.setVisibility(Session.isAdmin(this) ? View.VISIBLE : View.INVISIBLE);
-
-        btnAdmin.setOnClickListener(v ->
-                startActivity(new Intent(this, AdminActivity.class)));
-
-        // --- Logout button (visible to ALL users) ---
-        Button btnLogout = findViewById(R.id.btnLogout);
+        // --- Logout Logic ---
+        android.widget.Button btnLogout = findViewById(R.id.btnLogout);
         btnLogout.setOnClickListener(v -> {
-            Session.logout(this);               // clears SharedPreferences
-            startActivity(new Intent(this, LoginActivity.class));
-            finish();                           // prevent back navigation
+            Session.logout(this);
+            android.content.Intent intent = new android.content.Intent(this, LoginActivity.class);
+            intent.setFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK | android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
         });
+
+        // --- Admin Logic ---
+        android.widget.Button btnAdmin = findViewById(R.id.btnAdmin);
+        // Only show if Admin
+        if (Session.isAdmin(this)) {
+            btnAdmin.setVisibility(android.view.View.VISIBLE);
+            btnAdmin.setOnClickListener(v ->
+                    startActivity(new android.content.Intent(this, AdminActivity.class)));
+        } else {
+            btnAdmin.setVisibility(android.view.View.GONE);
+        }
     }
 }
