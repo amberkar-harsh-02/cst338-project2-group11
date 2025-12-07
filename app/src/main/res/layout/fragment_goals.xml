@@ -1,0 +1,19 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:padding="16dp"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/btnNewGoal"
+        android:text="New Goal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"/>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvGoals"
+        android:layout_width="match_parent"
+        android:layout_height="817dp"
+        android:layout_marginTop="8dp"
+        android:layout_weight="1" />
+</LinearLayout>
