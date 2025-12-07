@@ -55,7 +55,8 @@ public class LoginActivity extends AppCompatActivity {
             }).start();
         });
 
-        tvSignup.setOnClickListener(v ->
-                Toast.makeText(this, "Sign-up screen TBD", Toast.LENGTH_SHORT).show());
+        tvSignup.setOnClickListener(v -> {
+            startActivity(new Intent(this, SignUpActivity.class));
+        });
     }
 }

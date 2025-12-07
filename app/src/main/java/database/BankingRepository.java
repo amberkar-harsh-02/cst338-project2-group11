@@ -75,6 +75,10 @@ public class BankingRepository {
     }
 
     // --- ACCOUNT OPERATIONS ---
+
+    public void insertAccount(Account account) {
+        AppDatabase.databaseWriteExecutor.execute(() -> accountDao.insert(account));
+    }
     public List<Account> getAccounts(int userId) {
         Future<List<Account>> future = AppDatabase.databaseWriteExecutor.submit(() -> accountDao.getAccountsForUser(userId));
         try {
@@ -96,5 +100,14 @@ public class BankingRepository {
         try {
             return future.get();
         } catch (Exception e) { return null; }
+    }
+
+    public long registerUser(User user) {
+        try {
+            return AppDatabase.databaseWriteExecutor.submit(() -> userDao.insert(user)).get();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
     }
 }

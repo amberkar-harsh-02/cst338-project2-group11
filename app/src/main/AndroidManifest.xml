@@ -31,5 +31,7 @@
         <activity android:name=".AdminActivity"
             android:exported="false" />
 
+        <activity android:name=".SignUpActivity" />
+
     </application>
 </manifest>
