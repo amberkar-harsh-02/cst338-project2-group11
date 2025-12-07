@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="PillButton">
+        // pill color
+        <item name="android:backgroundTint">@color/colorMonteBlue</item>
+        <item name="android:textColor">@android:color/white</item>
+
+        // padding for the shape of the pill buton
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:paddingRight">20dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+    </style>
+
+
+
+</resources>

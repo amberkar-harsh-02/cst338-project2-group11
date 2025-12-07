@@ -35,6 +35,7 @@
         android:id="@+id/btnRegister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        style="@style/PillButton"
         android:layout_marginTop="24dp"
         android:text="Sign Up" />
 
@@ -44,7 +45,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Already have an account? Login"
-        android:textColor="@color/design_default_color_primary"
-        android:padding="8dp"/>
+        android:textColor="@color/colorMidBlue"
+        android:padding="2dp"/>
 
 </LinearLayout>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -25,14 +26,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Deposit"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            app:buttonTint="@color/colorMidBlue"/>
 
         <RadioButton
             android:id="@+id/rbWithdraw"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Withdraw"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            app:buttonTint="@color/colorMidBlue"/>
     </RadioGroup>
 
     <EditText
@@ -47,6 +50,7 @@
         android:id="@+id/btnSubmit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        style="@style/PillButton"
         android:text="Submit"
         android:layout_marginTop="24dp"/>
 
