@@ -21,12 +21,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(b);
         setContentView(R.layout.activity_login);
 
-        // 1. Initialize Repository
         repository = new BankingRepository(getApplicationContext());
 
-        // 2. SEED DATA (Optional: For testing only)
-        // This ensures you have a user to log in with right away.
-        seedDataIfEmpty();
+        // Setup seed data immediately
+        repository.seedData();
 
         etUser = findViewById(R.id.etUser);
         etPass = findViewById(R.id.etPass);
@@ -42,15 +40,11 @@ public class LoginActivity extends AppCompatActivity {
                 return;
             }
 
-            // 3. REAL DATABASE CHECK
-            // We verify the user in a background thread to avoid freezing the UI
             new Thread(() -> {
                 User user = repository.getUserByUsername(u);
 
-                // UI updates must happen on the main thread
                 runOnUiThread(() -> {
                     if (user != null && user.password.equals(p)) {
-                        // Login successful: Save userId and username to session
                         Session.login(this, user.userId, user.username, user.isAdmin);
                         startActivity(new Intent(this, LandingActivity.class));
                         finish();
@@ -63,21 +57,5 @@ public class LoginActivity extends AppCompatActivity {
 
         tvSignup.setOnClickListener(v ->
                 Toast.makeText(this, "Sign-up screen TBD", Toast.LENGTH_SHORT).show());
-    }
-
-    /**
-     * Helper to create a test user if the DB is empty
-     */
-    private void seedDataIfEmpty() {
-        new Thread(() -> {
-            User testUser = repository.getUserByUsername("testuser1");
-            if (testUser == null) {
-                User newUser = new User("testuser1", "password", false);
-                repository.insertUser(newUser);
-
-                User adminUser = new User("admin2", "admin2", true);
-                repository.insertUser(adminUser);
-            }
-        }).start();
     }
 }

@@ -8,7 +8,7 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import com.example.gitissues.ui.GoalsFragment;
+import ui.GoalsFragment;
 import ui.HistoryFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
