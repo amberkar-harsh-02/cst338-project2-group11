@@ -176,7 +176,7 @@
                                 </com.google.android.material.card.MaterialCardView>
                             </LinearLayout>
 
-                            <!-- Recent Transactions Header -->
+                            <!-- Monthly food budget -->
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -221,6 +221,27 @@
                                     android:textSize="14sp"
                                     android:textAlignment="viewEnd" />
                             </LinearLayout>
+
+                                <TextView
+                                    android:id="@+id/labelUpcomingBills"
+                                    android:layout_width="201dp"
+                                    android:layout_height="wrap_content"
+                                    android:paddingStart="1dp"
+                                    android:paddingTop="24dp"
+                                    android:paddingEnd="16dp"
+                                    android:paddingBottom="8dp"
+                                    android:text="Upcoming Bills"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold" />
+
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/rvUpcomingBills"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:nestedScrollingEnabled="false"
+                                    android:layout_marginStart="8dp"
+                                    android:layout_marginEnd="8dp"
+                                    android:layout_marginBottom="16dp" />
 
                             </LinearLayout>
                         </LinearLayout>
