@@ -2,6 +2,7 @@ package com.example.gitissues;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -22,14 +23,17 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         repository = new BankingRepository(getApplicationContext());
-
-        // Setup seed data immediately
-        repository.seedData();
+        repository.seedData(); // Ensures Admin exists
 
         etUser = findViewById(R.id.etUser);
         etPass = findViewById(R.id.etPass);
         Button btnLogin = findViewById(R.id.btnLogin);
+
+        // HIDE the Sign Up button logic
         TextView tvSignup = findViewById(R.id.tvSignup);
+        if (tvSignup != null) {
+            tvSignup.setVisibility(View.GONE);
+        }
 
         btnLogin.setOnClickListener(v -> {
             String u = etUser.getText().toString().trim();
@@ -53,10 +57,6 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
             }).start();
-        });
-
-        tvSignup.setOnClickListener(v -> {
-            startActivity(new Intent(this, SignUpActivity.class));
         });
     }
 }

@@ -51,7 +51,7 @@ public class SignUpActivity extends AppCompatActivity {
             }
 
             // 2. Create User
-            User newUser = new User(u, p, false);
+            User newUser = new User(u, p, false, "", "", "", "", "");
             long userId = repository.registerUser(newUser);
 
             if (userId > 0) {
