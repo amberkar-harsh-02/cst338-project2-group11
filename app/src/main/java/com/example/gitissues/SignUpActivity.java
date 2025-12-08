@@ -30,7 +30,7 @@ public class SignUpActivity extends AppCompatActivity {
         TextView tvBack = findViewById(R.id.tvGoBack);
 
         btnRegister.setOnClickListener(v -> handleRegister());
-        tvBack.setOnClickListener(v -> finish()); // Go back to Login
+        tvBack.setOnClickListener(v -> finish());
     }
 
     private void handleRegister() {
@@ -55,13 +55,16 @@ public class SignUpActivity extends AppCompatActivity {
             long userId = repository.registerUser(newUser);
 
             if (userId > 0) {
-                // 3. Create Default Account (Checking)
-                Account newAccount = new Account((int) userId, "Checking", 0.00);
-                repository.insertAccount(newAccount);
+                // 3. Create MULTIPLE Accounts (Checking AND Savings)
+                Account checking = new Account((int) userId, "Checking", 1000.00); // Start with $1000
+                Account savings = new Account((int) userId, "Savings", 500.00);    // Start with $500
+
+                repository.insertAccount(checking);
+                repository.insertAccount(savings);
 
                 runOnUiThread(() -> {
                     Toast.makeText(this, "Account created! Please Login.", Toast.LENGTH_SHORT).show();
-                    finish(); // Close screen and return to Login
+                    finish();
                 });
             } else {
                 runOnUiThread(() -> Toast.makeText(this, "Registration failed", Toast.LENGTH_SHORT).show());
