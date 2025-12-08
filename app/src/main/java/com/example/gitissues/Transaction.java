@@ -4,6 +4,7 @@ public class Transaction {
 
     private String title;
     private String date;
+    //sneha
     private double amount; // positive = credit, negative = debit
 
     public Transaction(String title, String date, double amount) {
