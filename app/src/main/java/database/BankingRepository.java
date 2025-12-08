@@ -148,4 +148,15 @@ public class BankingRepository {
             return -1;
         }
     }
+
+    public void addSavingsGoal(SavingsGoal goal) {
+        AppDatabase.databaseWriteExecutor.execute(() -> savingsGoalDao.insert(goal));
+    }
+    public void updateSavingsGoal(SavingsGoal goal) {
+        AppDatabase.databaseWriteExecutor.execute(() -> savingsGoalDao.update(goal));
+    }
+
+    public void deleteSavingsGoal(SavingsGoal goal) {
+        AppDatabase.databaseWriteExecutor.execute(() -> savingsGoalDao.delete(goal));
+    }
 }

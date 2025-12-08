@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create Savings Goal"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp"/>
+
+    <EditText
+        android:id="@+id/etGoalName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Goal Name (e.g., Vacation)"
+        android:inputType="textCapWords"
+        android:minHeight="48dp"/>
+
+    <EditText
+        android:id="@+id/etTargetAmount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:hint="Target Amount (e.g., 500.00)"
+        android:inputType="numberDecimal"
+        android:minHeight="48dp"/>
+
+    <EditText
+        android:id="@+id/etCurrentAmount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:hint="Starting Amount (Optional)"
+        android:inputType="numberDecimal"
+        android:minHeight="48dp"/>
+
+    <Button
+        android:id="@+id/btnDeleteGoal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Delete Goal"
+        android:backgroundTint="#D32F2F"
+        android:textColor="#FFFFFF"
+        android:visibility="gone"
+        android:layout_marginTop="8dp"/>
+
+    <Button
+        android:id="@+id/btnSaveGoal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Create Goal"
+        android:layout_marginTop="24dp"/>
+
+</LinearLayout>
