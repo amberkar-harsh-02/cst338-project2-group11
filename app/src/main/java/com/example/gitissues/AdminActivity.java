@@ -1,8 +1,6 @@
 package com.example.gitissues;
 
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.ListView; // We are switching to RecyclerView
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -27,7 +25,7 @@ public class AdminActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Security Check
+        // 1. Security Check: Kick out non-admins
         if (!Session.isAdmin(this)) {
             Toast.makeText(this, "Access Denied", Toast.LENGTH_SHORT).show();
             finish();
@@ -39,17 +37,17 @@ public class AdminActivity extends AppCompatActivity {
         repository = new BankingRepository(getApplicationContext());
         currentAdminId = Session.userId(this);
 
-        // Setup RecyclerView (Note: You need to update your XML layout to use RecyclerView too!)
-        // For now, if your XML still has a ListView, this might crash.
-        // SEE STEP 6 BELOW for the XML fix.
+        // 2. Setup RecyclerView
         RecyclerView rv = findViewById(R.id.rvUsers);
         rv.setLayoutManager(new LinearLayoutManager(this));
 
+        // Connect Adapter with a Delete Listener
         adapter = new UserAdapter(new ArrayList<>(), this::confirmDeleteUser);
         rv.setAdapter(adapter);
 
         findViewById(R.id.btnBack).setOnClickListener(v -> finish());
 
+        // 3. Load Data
         loadUsers();
     }
 
@@ -61,7 +59,7 @@ public class AdminActivity extends AppCompatActivity {
     }
 
     private void confirmDeleteUser(User user) {
-        // Prevent suicide (deleting yourself)
+        // Prevent deleting yourself
         if (user.userId == currentAdminId) {
             Toast.makeText(this, "You cannot delete yourself!", Toast.LENGTH_SHORT).show();
             return;
@@ -69,7 +67,7 @@ public class AdminActivity extends AppCompatActivity {
 
         new AlertDialog.Builder(this)
                 .setTitle("Delete User?")
-                .setMessage("Are you sure you want to delete " + user.username + "? This cannot be undone.")
+                .setMessage("Are you sure you want to delete " + user.username + "?")
                 .setPositiveButton("Delete", (dialog, which) -> deleteUser(user))
                 .setNegativeButton("Cancel", null)
                 .show();
@@ -79,7 +77,7 @@ public class AdminActivity extends AppCompatActivity {
         new Thread(() -> {
             repository.deleteUser(user);
 
-            // Reload list to show changes
+            // Refresh the list immediately
             loadUsers();
 
             runOnUiThread(() ->

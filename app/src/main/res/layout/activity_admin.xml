@@ -17,14 +17,14 @@
         android:id="@+id/btnBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/PillButton"
         android:text="← Back to Home"
-        android:layout_marginBottom="8dp"/>
+        android:layout_marginBottom="24dp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Manage Users"
+        android:text="Registered Users"
+        android:textStyle="bold"
         android:layout_marginBottom="8dp"
         android:textColor="#757575"/>
 

@@ -19,6 +19,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.VH> {
     private List<User> users;
     private final OnUserDeleteListener deleteListener;
 
+    // Interface to handle delete clicks
     public interface OnUserDeleteListener {
         void onDelete(User user);
     }
@@ -55,12 +56,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.VH> {
     @Override
     public void onBindViewHolder(@NonNull VH holder, int position) {
         User user = users.get(position);
+
         holder.tvName.setText(user.username);
-
         String role = user.isAdmin ? "ADMIN" : "User";
-        holder.tvInfo.setText("ID: " + user.userId + "  •  " + role);
+        holder.tvInfo.setText("ID: " + user.userId + " • " + role);
 
-        // Handle Delete Click
+        // Handle Delete Button Click
         holder.btnDelete.setOnClickListener(v -> {
             if (deleteListener != null) {
                 deleteListener.onDelete(user);
