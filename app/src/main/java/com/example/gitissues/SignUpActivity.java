@@ -1,5 +1,7 @@
 package com.example.gitissues;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +18,11 @@ public class SignUpActivity extends AppCompatActivity {
 
     EditText etUser, etPass;
     BankingRepository repository;
+
+    // --- INTENT FACTORY ---
+    public static Intent getIntent(Context context) {
+        return new Intent(context, SignUpActivity.class);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,24 +50,19 @@ public class SignUpActivity extends AppCompatActivity {
         }
 
         new Thread(() -> {
-            // 1. Check if username exists
             User existing = repository.getUserByUsername(u);
             if (existing != null) {
                 runOnUiThread(() -> Toast.makeText(this, "Username already taken", Toast.LENGTH_SHORT).show());
                 return;
             }
 
-            // 2. Create User (Passing empty strings for profile details since this is quick signup)
             User newUser = new User(u, p, false, "", "", "", "", "");
             long userId = repository.registerUser(newUser);
 
             if (userId > 0) {
-                // 3. Generate Unique Account Numbers
                 String checkNum = repository.generateNewAccountNumber();
                 String saveNum = repository.generateNewAccountNumber();
 
-                // 4. Create Accounts using the NEW 4-parameter constructor
-                // (userId, accountNumber, type, balance)
                 Account checking = new Account((int) userId, checkNum, "Checking", 1000.00);
                 Account savings = new Account((int) userId, saveNum, "Savings", 500.00);
 

@@ -1,5 +1,6 @@
 package com.example.gitissues;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -17,20 +18,26 @@ public class LoginActivity extends AppCompatActivity {
     EditText etUser, etPass;
     BankingRepository repository;
 
+    // --- INTENT FACTORY (Rubric Requirement) ---
+    public static Intent getIntent(Context context) {
+        return new Intent(context, LoginActivity.class);
+    }
+
     @Override
     protected void onCreate(Bundle b) {
         super.onCreate(b);
         setContentView(R.layout.activity_login);
 
         repository = new BankingRepository(getApplicationContext());
-        repository.seedData(); // Ensures Admin exists
+        repository.seedData();
 
         etUser = findViewById(R.id.etUser);
         etPass = findViewById(R.id.etPass);
         Button btnLogin = findViewById(R.id.btnLogin);
-
-        // HIDE the Sign Up button logic
         TextView tvSignup = findViewById(R.id.tvSignup);
+
+        // --- FIX: HIDE SIGN UP OPTION ---
+        // Since we only want Admins to create users, we hide this button.
         if (tvSignup != null) {
             tvSignup.setVisibility(View.GONE);
         }
@@ -50,7 +57,9 @@ public class LoginActivity extends AppCompatActivity {
                 runOnUiThread(() -> {
                     if (user != null && user.password.equals(p)) {
                         Session.login(this, user.userId, user.username, user.isAdmin);
-                        startActivity(new Intent(this, LandingActivity.class));
+
+                        // USE FACTORY
+                        startActivity(LandingActivity.getIntent(this));
                         finish();
                     } else {
                         Toast.makeText(this, "Invalid username or password", Toast.LENGTH_SHORT).show();

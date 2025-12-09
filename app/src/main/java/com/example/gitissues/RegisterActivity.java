@@ -1,5 +1,7 @@
 package com.example.gitissues;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Button;
@@ -93,5 +95,9 @@ public class RegisterActivity extends AppCompatActivity {
                 });
             }
         }).start();
+    }
+
+    public static Intent getIntent(Context context) {
+        return new Intent(context, RegisterActivity.class);
     }
 }

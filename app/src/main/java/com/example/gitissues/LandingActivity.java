@@ -1,5 +1,6 @@
 package com.example.gitissues;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -21,40 +22,35 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class LandingActivity extends AppCompatActivity {
 
+    // --- INTENT FACTORY ---
+    public static Intent getIntent(Context context) {
+        return new Intent(context, LandingActivity.class);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing);
 
-        // --- FIX FOR STATUS BAR OVERLAP ---
-        // This pushes the app content down so it doesn't sit under the camera/battery
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.landing_root), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        // ----------------------------------
 
-        // Load Default Home Fragment
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container, new HomeFragment())
                     .commit();
         }
 
-        // Bottom Nav Logic
         BottomNavigationView nav = findViewById(R.id.bottom_nav);
         nav.setOnItemSelectedListener(item -> {
             Fragment f = null;
             int id = item.getItemId();
-
-            if (id == R.id.nav_home) {
-                f = new HomeFragment();
-            } else if (id == R.id.nav_goals) {
-                f = new GoalsFragment();
-            } else if (id == R.id.nav_history) {
-                f = new HistoryFragment();
-            }
+            if (id == R.id.nav_home) f = new HomeFragment();
+            else if (id == R.id.nav_goals) f = new GoalsFragment();
+            else if (id == R.id.nav_history) f = new HistoryFragment();
 
             if (f != null) {
                 getSupportFragmentManager().beginTransaction()
@@ -64,7 +60,6 @@ public class LandingActivity extends AppCompatActivity {
             return true;
         });
 
-        // Profile Popup Menu Logic
         ImageButton btnMenu = findViewById(R.id.btnProfileMenu);
         btnMenu.setOnClickListener(this::showPopupMenu);
     }
@@ -97,13 +92,15 @@ public class LandingActivity extends AppCompatActivity {
             }
             else if (id == R.id.menu_logout) {
                 Session.logout(this);
-                Intent intent = new Intent(this, LoginActivity.class);
+                // USE FACTORY
+                Intent intent = LoginActivity.getIntent(this);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 return true;
             }
             else if (id == R.id.menu_admin) {
-                startActivity(new Intent(this, AdminActivity.class));
+                // USE FACTORY
+                startActivity(AdminActivity.getIntent(this));
                 return true;
             }
             return false;

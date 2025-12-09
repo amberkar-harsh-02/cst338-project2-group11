@@ -1,5 +1,7 @@
 package com.example.gitissues;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -21,11 +23,15 @@ public class AdminActivity extends AppCompatActivity {
     private UserAdapter adapter;
     private int currentAdminId;
 
+    // --- INTENT FACTORY ---
+    public static Intent getIntent(Context context) {
+        return new Intent(context, AdminActivity.class);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // 1. Security Check: Kick out non-admins
         if (!Session.isAdmin(this)) {
             Toast.makeText(this, "Access Denied", Toast.LENGTH_SHORT).show();
             finish();
@@ -37,23 +43,18 @@ public class AdminActivity extends AppCompatActivity {
         repository = new BankingRepository(getApplicationContext());
         currentAdminId = Session.userId(this);
 
-        // 2. Setup RecyclerView
         RecyclerView rv = findViewById(R.id.rvUsers);
         rv.setLayoutManager(new LinearLayoutManager(this));
-
-        // Connect Adapter with a Delete Listener
         adapter = new UserAdapter(new ArrayList<>(), this::confirmDeleteUser);
         rv.setAdapter(adapter);
 
         findViewById(R.id.btnBack).setOnClickListener(v -> finish());
 
+        // USE FACTORY
         findViewById(R.id.fabAddUser).setOnClickListener(v -> {
-            // Open the new Register form
-            android.content.Intent intent = new android.content.Intent(this, RegisterActivity.class);
-            startActivity(intent);
+            startActivity(RegisterActivity.getIntent(this));
         });
 
-        // 3. Load Data
         loadUsers();
     }
 
@@ -65,7 +66,6 @@ public class AdminActivity extends AppCompatActivity {
     }
 
     private void confirmDeleteUser(User user) {
-        // Prevent deleting yourself
         if (user.userId == currentAdminId) {
             Toast.makeText(this, "You cannot delete yourself!", Toast.LENGTH_SHORT).show();
             return;
@@ -82,10 +82,7 @@ public class AdminActivity extends AppCompatActivity {
     private void deleteUser(User user) {
         new Thread(() -> {
             repository.deleteUser(user);
-
-            // Refresh the list immediately
             loadUsers();
-
             runOnUiThread(() ->
                     Toast.makeText(this, "User deleted", Toast.LENGTH_SHORT).show()
             );
