@@ -31,5 +31,31 @@ public class BankingUnitTests {
         assertEquals("Email should match", "admin@bank.com", admin.email);
     }
 
+    // ==========================================
+    // SNEHA'S TESTS (Transaction Model Logic)
+    // ==========================================
+
+    @Test
+    public void testTransactionCreation() {
+        // Goal: Verify Transaction object creation
+        long now = System.currentTimeMillis();
+        Transaction t = new Transaction(10, "Deposit", 200.00, now);
+
+        assertEquals("Amount should be 200.00", 200.00, t.amount, 0.001);
+        assertEquals("Type should be Deposit", "Deposit", t.type);
+        assertEquals("Timestamp should match", now, t.timestamp);
+    }
+
+    @Test
+    public void testWithdrawalTransaction() {
+        // Goal: Verify negative/withdrawal logic storage
+        // Note: In our app we store positive numbers for amount and use "type" to determine sign,
+        // but this test ensures the model holds exactly what we give it.
+        long now = System.currentTimeMillis();
+        Transaction t = new Transaction(10, "Withdrawal", 50.00, now);
+
+        assertEquals("Type should be Withdrawal", "Withdrawal", t.type);
+        assertEquals("Account ID should match", 10, t.accountId);
+    }
 
 }
