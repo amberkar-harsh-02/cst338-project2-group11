@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FAFAFA"
+    android:background="@color/white"
     android:padding="16dp">
 
     <TextView
@@ -24,6 +24,7 @@
         android:layout_height="wrap_content"
         android:text="Back to Home"
         android:layout_marginTop="8dp"
+        style="@style/PillButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvAdminTitle" />
 
@@ -55,7 +56,7 @@
         android:layout_margin="16dp"
         android:src="@android:drawable/ic_input_add"
         app:tint="#FFF"
-        app:backgroundTint="@color/design_default_color_primary"
+        app:backgroundTint="@color/colorMidBlue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
