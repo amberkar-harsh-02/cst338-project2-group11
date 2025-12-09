@@ -18,6 +18,13 @@ public class BankingRepository {
     private final TransactionDao transactionDao;
     private final SavingsGoalDao savingsGoalDao;
 
+    /**
+     * Repository layer for the banking application.
+     * This class abstracts the data source (Room Database DAOs) and ensures all
+     * database operations are performed on a background thread (via AppDatabase.databaseWriteExecutor).
+     * It provides synchronous-like blocking access to the data by using Future.get()
+     * for read operations, and non-blocking asynchronous execution for writes.
+     */
     public BankingRepository(Context context) {
         AppDatabase db = AppDatabase.getDatabase(context);
         userDao = db.userDao();
@@ -46,6 +53,10 @@ public class BankingRepository {
     }
 
     // --- SEED DATA (Updated for Account Number) ---
+    /**
+     * Seeds the database with initial user, account, transaction, and goal data.
+     * Executes asynchronously on the database write executor.
+     */
     public void seedData() {
         AppDatabase.databaseWriteExecutor.execute(() -> {
             if (userDao.getUserByUsername("testuser1") == null) {
