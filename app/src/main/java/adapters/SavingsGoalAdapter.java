@@ -18,9 +18,17 @@ import java.util.Locale;
 public class SavingsGoalAdapter extends RecyclerView.Adapter<SavingsGoalAdapter.VH> {
 
     private List<SavingsGoal> data;
+    private final OnGoalClickListener listener;
 
-    public SavingsGoalAdapter(List<SavingsGoal> data) {
+    // Interface to handle clicks
+    public interface OnGoalClickListener {
+        void onGoalClick(SavingsGoal goal);
+    }
+
+    // Constructor now takes the listener
+    public SavingsGoalAdapter(List<SavingsGoal> data, OnGoalClickListener listener) {
         this.data = data;
+        this.listener = listener;
     }
 
     public void setData(List<SavingsGoal> newData) {
@@ -42,8 +50,7 @@ public class SavingsGoalAdapter extends RecyclerView.Adapter<SavingsGoalAdapter.
 
     @NonNull @Override
     public VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_goal, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_goal, parent, false);
         return new VH(v);
     }
 
@@ -52,13 +59,14 @@ public class SavingsGoalAdapter extends RecyclerView.Adapter<SavingsGoalAdapter.
         SavingsGoal g = data.get(position);
 
         holder.tvName.setText(g.name);
-
-        // Format: "$250.00 / $1000.00"
         String progressText = String.format(Locale.US, "$%.0f / $%.0f", g.currentAmount, g.targetAmount);
         holder.tvAmount.setText(progressText);
-
-        // Use the model's helper to get integer percentage
         holder.progress.setProgress(g.getProgressPercent());
+
+        // Handle Click
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) listener.onGoalClick(g);
+        });
     }
 
     @Override
