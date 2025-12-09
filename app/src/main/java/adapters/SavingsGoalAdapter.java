@@ -10,7 +10,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.gitissues.R;
+import androidx.recyclerview.widget.RecyclerView;
 import models.SavingsGoal;
+
+import com.example.gitissues.R;
+import com.example.gitissues.views.SemiCircleProgressView;
 
 import java.util.List;
 import java.util.Locale;
@@ -38,13 +42,13 @@ public class SavingsGoalAdapter extends RecyclerView.Adapter<SavingsGoalAdapter.
 
     static class VH extends RecyclerView.ViewHolder {
         TextView tvName, tvAmount;
-        ProgressBar progress;
+        SemiCircleProgressView progressView;
 
         VH(@NonNull View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.tvGoalName);
             tvAmount = itemView.findViewById(R.id.tvAmount);
-            progress = itemView.findViewById(R.id.progress);
+            progressView = itemView.findViewById(R.id.progress);
         }
     }
 
@@ -61,7 +65,7 @@ public class SavingsGoalAdapter extends RecyclerView.Adapter<SavingsGoalAdapter.
         holder.tvName.setText(g.name);
         String progressText = String.format(Locale.US, "$%.0f / $%.0f", g.currentAmount, g.targetAmount);
         holder.tvAmount.setText(progressText);
-        holder.progress.setProgress(g.getProgressPercent());
+        holder.progressView.setProgress(g.getProgressPercent());
 
         // Handle Click
         holder.itemView.setOnClickListener(v -> {

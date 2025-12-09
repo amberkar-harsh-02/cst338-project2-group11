@@ -1,17 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:padding="12dp"
-    android:layout_width="match_parent" android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
+    android:orientation="horizontal"
+    android:padding="16dp"
+    android:gravity="center_vertical"
+    android:background="@drawable/goal_item_background">
 
-    <TextView android:id="@+id/tvGoalName"
-        android:textStyle="bold" android:textSize="16sp"
-        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+    <!-- Left side: goal name + amounts -->
 
-    <ProgressBar
-        android:id="@+id/progress"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:max="100" android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+    <!-- Right side: simple half-circle progress bar -->
 
-    <TextView android:id="@+id/tvAmount"
-        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.7"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvGoalName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Car"
+            android:textColor="#212121"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="$5,000 / $20,000"
+            android:textColor="#757575"
+            android:textSize="18sp" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="7dp"
+        android:layout_height="115dp"
+        android:layout_weight="0.3"
+        android:gravity="bottom"
+        android:orientation="vertical">
+
+
+        <com.example.gitissues.views.SemiCircleProgressView
+            android:id="@+id/progress"
+            android:layout_width="83dp"
+            android:layout_height="101dp"
+            android:layout_marginStart="8dp" />
+
+    </LinearLayout>
+
+
 </LinearLayout>
