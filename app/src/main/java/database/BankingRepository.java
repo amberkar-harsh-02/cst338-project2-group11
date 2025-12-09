@@ -150,4 +150,81 @@ public class BankingRepository {
     public void deleteSavingsGoal(SavingsGoal goal) {
         AppDatabase.databaseWriteExecutor.execute(() -> savingsGoalDao.delete(goal));
     }
+
+
+    // --- TRANSFER LOGIC ---
+
+    // Type 1: Internal Transfer (Checking <-> Savings)
+    public boolean transferInternal(int fromAccountId, int toAccountId, double amount) {
+        try {
+            return AppDatabase.databaseWriteExecutor.submit(() -> {
+                Account from = accountDao.getAccountById(fromAccountId);
+                Account to = accountDao.getAccountById(toAccountId);
+
+                if (from == null || to == null) return false;
+                if (from.balance < amount) return false; // Insufficient funds
+
+                // Perform Transfer
+                from.balance -= amount;
+                to.balance += amount;
+
+                accountDao.update(from);
+                accountDao.update(to);
+
+                // Record Transactions
+                transactionDao.insert(new Transaction(fromAccountId, "Transfer Out", amount, System.currentTimeMillis()));
+                transactionDao.insert(new Transaction(toAccountId, "Transfer In", amount, System.currentTimeMillis()));
+
+                return true;
+            }).get();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    // Type 2: Peer-to-Peer Transfer (User to User)
+    public String transferToUser(int fromAccountId, String targetAccNum, String targetUsername, double amount) {
+        try {
+            return AppDatabase.databaseWriteExecutor.submit(() -> {
+                // 1. Validate Source
+                Account from = accountDao.getAccountById(fromAccountId);
+                if (from == null) return "Source account error";
+                if (from.balance < amount) return "Insufficient funds";
+
+                // 2. Validate Target Account
+                Account targetAccount = accountDao.getAccountByNumber(targetAccNum);
+                if (targetAccount == null) return "Target account number not found";
+
+                // 3. Prevent self-transfer via external method (Optional safety)
+                if (targetAccount.accountId == fromAccountId) return "Cannot send to same account";
+
+                // 4. Validate Target Username (Security Check)
+                User targetUser = userDao.getUserById(targetAccount.userId);
+                if (targetUser == null || !targetUser.username.equalsIgnoreCase(targetUsername)) {
+                    return "Account number does not match username";
+                }
+
+                // 5. Perform Transfer
+                from.balance -= amount;
+                targetAccount.balance += amount;
+
+                accountDao.update(from);
+                accountDao.update(targetAccount);
+
+                // 6. Record Transactions
+                // Get sender name for the record
+                User sender = userDao.getUserById(from.userId);
+                String senderName = (sender != null) ? sender.username : "Unknown";
+
+                transactionDao.insert(new Transaction(fromAccountId, "Sent to " + targetUser.username, amount, System.currentTimeMillis()));
+                transactionDao.insert(new Transaction(targetAccount.accountId, "Received from " + senderName, amount, System.currentTimeMillis()));
+
+                return "Success";
+            }).get();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "System error occurred";
+        }
+    }
 }
