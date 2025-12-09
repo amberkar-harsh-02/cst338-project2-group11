@@ -2,4 +2,11 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    //color pallet
+    <color name="colorCream">#EEEAE1</color>
+    <color name="colorLightBlue">#95AACC</color>
+    <color name="colorMidBlue">#4C75A7</color>
+    <color name="colorBlack">#000000</color>
+    <color name="colorMonteBlue">#21446e</color>
 </resources>

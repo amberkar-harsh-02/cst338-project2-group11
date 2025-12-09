@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Transaction"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp"/>
+
+    <RadioGroup
+        android:id="@+id/rgType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:checkedButton="@+id/rbDeposit">
+
+        <RadioButton
+            android:id="@+id/rbDeposit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Deposit"
+            android:layout_weight="1"
+            app:buttonTint="@color/colorMidBlue"/>
+
+        <RadioButton
+            android:id="@+id/rbWithdraw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Withdraw"
+            android:layout_weight="1"
+            app:buttonTint="@color/colorMidBlue"/>
+    </RadioGroup>
+
+    <EditText
+        android:id="@+id/etAmount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Amount (e.g., 50.00)"
+        android:inputType="numberDecimal"
+        android:layout_marginTop="16dp"/>
+
+    <Button
+        android:id="@+id/btnSubmit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/PillButton"
+        android:text="Submit"
+        android:layout_marginTop="24dp"/>
+
+</LinearLayout>

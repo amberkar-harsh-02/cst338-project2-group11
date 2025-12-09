@@ -1,7 +1,9 @@
 package com.example.gitissues;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -16,22 +18,29 @@ public class LoginActivity extends AppCompatActivity {
     EditText etUser, etPass;
     BankingRepository repository;
 
+    // --- INTENT FACTORY (Rubric Requirement) ---
+    public static Intent getIntent(Context context) {
+        return new Intent(context, LoginActivity.class);
+    }
+
     @Override
     protected void onCreate(Bundle b) {
         super.onCreate(b);
         setContentView(R.layout.activity_login);
 
-        // 1. Initialize Repository
         repository = new BankingRepository(getApplicationContext());
-
-        // 2. SEED DATA (Optional: For testing only)
-        // This ensures you have a user to log in with right away.
-        seedDataIfEmpty();
+        repository.seedData();
 
         etUser = findViewById(R.id.etUser);
         etPass = findViewById(R.id.etPass);
         Button btnLogin = findViewById(R.id.btnLogin);
         TextView tvSignup = findViewById(R.id.tvSignup);
+
+        // --- FIX: HIDE SIGN UP OPTION ---
+        // Since we only want Admins to create users, we hide this button.
+        if (tvSignup != null) {
+            tvSignup.setVisibility(View.GONE);
+        }
 
         btnLogin.setOnClickListener(v -> {
             String u = etUser.getText().toString().trim();
@@ -42,17 +51,15 @@ public class LoginActivity extends AppCompatActivity {
                 return;
             }
 
-            // 3. REAL DATABASE CHECK
-            // We verify the user in a background thread to avoid freezing the UI
             new Thread(() -> {
                 User user = repository.getUserByUsername(u);
 
-                // UI updates must happen on the main thread
                 runOnUiThread(() -> {
                     if (user != null && user.password.equals(p)) {
-                        // Login successful: Save userId and username to session
                         Session.login(this, user.userId, user.username, user.isAdmin);
-                        startActivity(new Intent(this, LandingActivity.class));
+
+                        // USE FACTORY
+                        startActivity(LandingActivity.getIntent(this));
                         finish();
                     } else {
                         Toast.makeText(this, "Invalid username or password", Toast.LENGTH_SHORT).show();
@@ -60,24 +67,5 @@ public class LoginActivity extends AppCompatActivity {
                 });
             }).start();
         });
-
-        tvSignup.setOnClickListener(v ->
-                Toast.makeText(this, "Sign-up screen TBD", Toast.LENGTH_SHORT).show());
-    }
-
-    /**
-     * Helper to create a test user if the DB is empty
-     */
-    private void seedDataIfEmpty() {
-        new Thread(() -> {
-            User testUser = repository.getUserByUsername("testuser1");
-            if (testUser == null) {
-                User newUser = new User("testuser1", "password", false);
-                repository.insertUser(newUser);
-
-                User adminUser = new User("admin2", "admin2", true);
-                repository.insertUser(adminUser);
-            }
-        }).start();
     }
 }

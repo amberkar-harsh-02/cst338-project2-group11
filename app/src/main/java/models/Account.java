@@ -15,11 +15,14 @@ public class Account {
     public int accountId;
 
     public int userId;
-    public String accountType; // e.g., "Checking", "Savings"
+    public String accountNumber; // NEW FIELD (11 digits)
+    public String accountType;   // "Checking" or "Savings"
     public double balance;
 
-    public Account(int userId, String accountType, double balance) {
+    // Updated Constructor
+    public Account(int userId, String accountNumber, String accountType, double balance) {
         this.userId = userId;
+        this.accountNumber = accountNumber;
         this.accountType = accountType;
         this.balance = balance;
     }

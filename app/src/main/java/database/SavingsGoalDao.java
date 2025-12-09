@@ -1,6 +1,7 @@
 package database;
 
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
@@ -15,7 +16,10 @@ public interface SavingsGoalDao {
     void insert(SavingsGoal goal);
 
     @Update
-    void update(SavingsGoal goal);
+    void update(SavingsGoal goal); // Already existed, but crucial now
+
+    @Delete
+    void delete(SavingsGoal goal); // New
 
     @Query("SELECT * FROM savings_goals WHERE userId = :userId")
     List<SavingsGoal> getGoalsForUser(int userId);
