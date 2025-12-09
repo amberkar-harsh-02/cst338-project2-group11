@@ -31,7 +31,6 @@
             android:textColor="#FFFFFF"/>
     </LinearLayout>
 
-    <?xml version="1.0" encoding="utf-8"?>
     <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
@@ -41,10 +40,7 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/purple_700">
-
-
+            android:layout_height="match_parent">
 
                     <!-- Big white “panel” card -->
                     <com.google.android.material.card.MaterialCardView
@@ -253,7 +249,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start"  android:fitsSystemWindows="true"
-            app:menu="@menu/your_menu_file_name" />
+            app:menu="@menu/menu_drawer" />
     </androidx.drawerlayout.widget.DrawerLayout>
 
 
