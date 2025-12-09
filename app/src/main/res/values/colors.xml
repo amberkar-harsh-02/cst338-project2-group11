@@ -9,4 +9,8 @@
     <color name="colorMidBlue">#4C75A7</color>
     <color name="colorBlack">#000000</color>
     <color name="colorMonteBlue">#21446e</color>
+
+    //checkings account color
+    <color name="checkingAccount">#E3F2FD</color>
+
 </resources>
