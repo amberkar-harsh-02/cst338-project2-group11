@@ -26,29 +26,47 @@ public class BankingRepository {
         savingsGoalDao = db.savingsGoalDao();
     }
 
-    // --- SEED DATA (Updated for new User fields) ---
+    // --- HELPER: GENERATE UNIQUE 11-DIGIT NUMBER ---
+    // Must be called from a background thread
+    public String generateNewAccountNumber() {
+        String number = "";
+        boolean unique = false;
+
+        while (!unique) {
+            // Generate random 11-digit number (10 billion to 99 billion)
+            long randomNum = 10000000000L + (long)(Math.random() * 90000000000L);
+            number = String.valueOf(randomNum);
+
+            // Check if it exists
+            if (accountDao.getAccountByNumber(number) == null) {
+                unique = true;
+            }
+        }
+        return number;
+    }
+
+    // --- SEED DATA (Updated for Account Number) ---
     public void seedData() {
         AppDatabase.databaseWriteExecutor.execute(() -> {
             if (userDao.getUserByUsername("testuser1") == null) {
 
-                // 1. Create User (Standard)
-                // New Constructor: (user, pass, isAdmin, first, last, email, phone, address)
+                // 1. Create Users
                 User user = new User("testuser1", "password", false,
                         "John", "Doe", "john@test.com", "555-0100", "123 User Lane");
-
                 long userIdLong = userDao.insert(user);
                 int userId = (int) userIdLong;
 
-                // 2. Create Admin
                 User admin = new User("admin2", "admin2", true,
                         "System", "Admin", "admin@bank.com", "555-9999", "HQ Building 1");
                 userDao.insert(admin);
 
-                // 3. Create Account & Transactions (Same as before)
-                Account account = new Account(userId, "Checking", 1000.00);
+                // 2. Create Account (With generated number)
+                String accNum = generateNewAccountNumber();
+                Account account = new Account(userId, accNum, "Checking", 1000.00);
                 long accountIdLong = accountDao.insert(account);
                 int accountId = (int) accountIdLong;
 
+                // 3. Transactions & Goals
                 Transaction t1 = new Transaction(accountId, "Deposit", 500.00, System.currentTimeMillis());
                 Transaction t2 = new Transaction(accountId, "Starbucks", -12.50, System.currentTimeMillis());
                 transactionDao.insert(t1);
@@ -61,8 +79,6 @@ public class BankingRepository {
     }
 
     // --- USER OPERATIONS ---
-
-    // Updated to return ID (long) to help with creating accounts immediately after
     public long registerUser(User user) {
         try {
             return AppDatabase.databaseWriteExecutor.submit(() -> userDao.insert(user)).get();
@@ -74,25 +90,16 @@ public class BankingRepository {
 
     public User getUserByUsername(String username) {
         Future<User> future = AppDatabase.databaseWriteExecutor.submit(() -> userDao.getUserByUsername(username));
-        try {
-            return future.get();
-        } catch (InterruptedException | ExecutionException e) {
-            return null;
-        }
+        try { return future.get(); } catch (Exception e) { return null; }
+    }
+
+    public void updateUser(User user) {
+        AppDatabase.databaseWriteExecutor.execute(() -> userDao.update(user));
     }
 
     public List<User> getAllUsers() {
         Future<List<User>> future = AppDatabase.databaseWriteExecutor.submit(userDao::getAllUsers);
-        try {
-            return future.get();
-        } catch (Exception e) { return null; }
-    }
-    public void updateUser(User user) {
-        AppDatabase.databaseWriteExecutor.execute(() -> {
-            // We need to add an update method to UserDao first if strictly using DAO
-            // But since we are using Room, we can use @Update in DAO
-            userDao.update(user);
-        });
+        try { return future.get(); } catch (Exception e) { return null; }
     }
 
     public void deleteUser(User user) {
@@ -122,7 +129,7 @@ public class BankingRepository {
                 account.balance += t.amount;
             } else if ("Withdrawal".equals(t.type)) {
                 if (account.balance >= t.amount) account.balance -= t.amount;
-                else return; // Insufficient funds
+                else return;
             }
             accountDao.update(account);
             transactionDao.insert(t);

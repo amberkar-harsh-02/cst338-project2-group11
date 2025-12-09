@@ -50,14 +50,19 @@ public class SignUpActivity extends AppCompatActivity {
                 return;
             }
 
-            // 2. Create User
+            // 2. Create User (Passing empty strings for profile details since this is quick signup)
             User newUser = new User(u, p, false, "", "", "", "", "");
             long userId = repository.registerUser(newUser);
 
             if (userId > 0) {
-                // 3. Create MULTIPLE Accounts (Checking AND Savings)
-                Account checking = new Account((int) userId, "Checking", 1000.00); // Start with $1000
-                Account savings = new Account((int) userId, "Savings", 500.00);    // Start with $500
+                // 3. Generate Unique Account Numbers
+                String checkNum = repository.generateNewAccountNumber();
+                String saveNum = repository.generateNewAccountNumber();
+
+                // 4. Create Accounts using the NEW 4-parameter constructor
+                // (userId, accountNumber, type, balance)
+                Account checking = new Account((int) userId, checkNum, "Checking", 1000.00);
+                Account savings = new Account((int) userId, saveNum, "Savings", 500.00);
 
                 repository.insertAccount(checking);
                 repository.insertAccount(savings);

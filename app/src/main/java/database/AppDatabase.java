@@ -14,8 +14,8 @@ import models.SavingsGoal;
 import models.Transaction;
 import models.User;
 
-// VERSION CHANGED TO 2
-@Database(entities = {User.class, Account.class, Transaction.class, SavingsGoal.class}, version = 2, exportSchema = false)
+// VERSION CHANGED TO 3
+@Database(entities = {User.class, Account.class, Transaction.class, SavingsGoal.class}, version = 3, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract UserDao userDao();
@@ -34,7 +34,7 @@ public abstract class AppDatabase extends RoomDatabase {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                                     AppDatabase.class, "banking_database")
-                            .fallbackToDestructiveMigration() // Allows DB to wipe and rebuild on version change
+                            .fallbackToDestructiveMigration() // Wipes and rebuilds DB on version change
                             .build();
                 }
             }

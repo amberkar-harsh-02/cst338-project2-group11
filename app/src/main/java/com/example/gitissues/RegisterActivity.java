@@ -7,7 +7,6 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
-// THIS LINE IS THE KEY. It imports the tool from Android.
 import androidx.appcompat.app.AppCompatActivity;
 
 import database.BankingRepository;
@@ -75,15 +74,18 @@ public class RegisterActivity extends AppCompatActivity {
                 return;
             }
 
-            // Create User with the NEW 8-parameter constructor
+            // Create User
             User newUser = new User(username, password, isAdmin, first, last, email, phone, address);
-
             long userId = repository.registerUser(newUser);
 
             if (userId > 0) {
-                // Auto-create Checking & Savings for the new user
-                repository.insertAccount(new Account((int)userId, "Checking", 0.0));
-                repository.insertAccount(new Account((int)userId, "Savings", 0.0));
+                // --- GENERATE UNIQUE ACCOUNT NUMBERS ---
+                String checkNum = repository.generateNewAccountNumber();
+                String saveNum = repository.generateNewAccountNumber();
+
+                // Create Accounts with these numbers
+                repository.insertAccount(new Account((int)userId, checkNum, "Checking", 0.0));
+                repository.insertAccount(new Account((int)userId, saveNum, "Savings", 0.0));
 
                 runOnUiThread(() -> {
                     Toast.makeText(this, "User Created Successfully", Toast.LENGTH_SHORT).show();
