@@ -20,18 +20,53 @@
             android:layout_marginBottom="24dp"/>
 
         <TextView
-            android:text="Username (Cannot be changed)"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Account Details"
+            android:textAllCaps="true"
             android:textSize="12sp"
             android:textColor="#757575"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
+
+        <EditText
+            android:id="@+id/etProfileChecking"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Checking Account Number"
+            android:enabled="false"
+            android:backgroundTint="#E0E0E0"
+            android:textColor="#555"
+            android:layout_marginBottom="12dp"/>
+
+        <EditText
+            android:id="@+id/etProfileSavings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Savings Account Number"
+            android:enabled="false"
+            android:backgroundTint="#E0E0E0"
+            android:textColor="#555"
+            android:layout_marginBottom="24dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Personal Information"
+            android:textAllCaps="true"
+            android:textSize="12sp"
+            android:textColor="#757575"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
+
         <EditText
             android:id="@+id/etProfileUsername"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:enabled="false"
-            android:backgroundTint="#DDD"
-            android:layout_marginBottom="16dp"/>
+            android:backgroundTint="#E0E0E0"
+            android:textColor="#555"
+            android:layout_marginBottom="12dp"/>
 
         <EditText
             android:id="@+id/etProfileFirst"
@@ -82,14 +117,11 @@
             android:backgroundTint="@color/design_default_color_primary"
             android:textColor="#FFF"/>
 
-        <Button
+        <View
             android:id="@+id/btnLogoutProfile"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Log Out"
-            android:layout_marginTop="16dp"
-            style="?android:attr/borderlessButtonStyle"
-            android:textColor="#D32F2F"/>
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="gone"/>
 
     </LinearLayout>
 </ScrollView>

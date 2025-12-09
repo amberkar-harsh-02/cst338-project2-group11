@@ -1,9 +1,7 @@
 package ui;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -15,14 +13,17 @@ import androidx.fragment.app.Fragment;
 import com.example.gitissues.R;
 import com.example.gitissues.Session;
 
+import java.util.List;
+
 import database.BankingRepository;
+import models.Account;
 import models.User;
-import database.UserDao; // Only if using Room directly, but Repository handles it
 
 public class ProfileFragment extends Fragment {
 
     private BankingRepository repository;
     private EditText etFirst, etLast, etEmail, etPhone, etAddress, etUsername;
+    private EditText etChecking, etSavings; // NEW FIELDS
     private User currentUser;
 
     public ProfileFragment() {
@@ -36,6 +37,9 @@ public class ProfileFragment extends Fragment {
         repository = new BankingRepository(getContext());
 
         // Bind Views
+        etChecking = view.findViewById(R.id.etProfileChecking);
+        etSavings = view.findViewById(R.id.etProfileSavings);
+
         etUsername = view.findViewById(R.id.etProfileUsername);
         etFirst = view.findViewById(R.id.etProfileFirst);
         etLast = view.findViewById(R.id.etProfileLast);
@@ -44,10 +48,6 @@ public class ProfileFragment extends Fragment {
         etAddress = view.findViewById(R.id.etProfileAddress);
         Button btnUpdate = view.findViewById(R.id.btnUpdateProfile);
 
-        // Hide "Logout" button inside fragment since it's now in the top menu
-        View btnLogout = view.findViewById(R.id.btnLogoutProfile);
-        if(btnLogout != null) btnLogout.setVisibility(View.GONE);
-
         loadUserProfile();
 
         btnUpdate.setOnClickListener(v -> updateUserProfile());
@@ -55,18 +55,37 @@ public class ProfileFragment extends Fragment {
 
     private void loadUserProfile() {
         String username = Session.username(getContext());
+        int userId = Session.userId(getContext()); // Need ID to get accounts
 
         new Thread(() -> {
+            // 1. Get User Details
             currentUser = repository.getUserByUsername(username);
 
-            if (currentUser != null && getActivity() != null) {
+            // 2. Get Account Details
+            List<Account> accounts = repository.getAccounts(userId);
+
+            if (getActivity() != null) {
                 getActivity().runOnUiThread(() -> {
-                    etUsername.setText(currentUser.username);
-                    etFirst.setText(currentUser.firstName);
-                    etLast.setText(currentUser.lastName);
-                    etEmail.setText(currentUser.email);
-                    etPhone.setText(currentUser.phone);
-                    etAddress.setText(currentUser.address);
+                    // Populate User Info
+                    if (currentUser != null) {
+                        etUsername.setText(currentUser.username);
+                        etFirst.setText(currentUser.firstName);
+                        etLast.setText(currentUser.lastName);
+                        etEmail.setText(currentUser.email);
+                        etPhone.setText(currentUser.phone);
+                        etAddress.setText(currentUser.address);
+                    }
+
+                    // Populate Account Info
+                    if (accounts != null) {
+                        for (Account acc : accounts) {
+                            if ("Checking".equalsIgnoreCase(acc.accountType)) {
+                                etChecking.setText("Checking: " + acc.accountNumber);
+                            } else if ("Savings".equalsIgnoreCase(acc.accountType)) {
+                                etSavings.setText("Savings: " + acc.accountNumber);
+                            }
+                        }
+                    }
                 });
             }
         }).start();
@@ -82,14 +101,7 @@ public class ProfileFragment extends Fragment {
         currentUser.address = etAddress.getText().toString().trim();
 
         new Thread(() -> {
-            // Room's DAO "insert" (onConflict = Replace) or we need an update method
-            // Since we don't have a specific update method in Repository,
-            // we'll rely on our Dao being smart or adding a specific update method.
-
-            // NOTE: We need to make sure BankingRepository has an update method
-            // Use a repository method:
             repository.updateUser(currentUser);
-
             if (getActivity() != null) {
                 getActivity().runOnUiThread(() ->
                         Toast.makeText(getContext(), "Profile Updated!", Toast.LENGTH_SHORT).show()
