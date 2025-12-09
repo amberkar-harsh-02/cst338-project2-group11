@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 
 import ui.GoalsFragment;
 import ui.HistoryFragment;
+import ui.HomeFragment;
 import ui.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -34,10 +35,10 @@ public class LandingActivity extends AppCompatActivity {
         });
         // ----------------------------------
 
-        // Load Default Fragment
+        // Load Default Home Fragment
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, new GoalsFragment())
+                    .replace(R.id.fragment_container, new HomeFragment())
                     .commit();
         }
 
@@ -45,8 +46,15 @@ public class LandingActivity extends AppCompatActivity {
         BottomNavigationView nav = findViewById(R.id.bottom_nav);
         nav.setOnItemSelectedListener(item -> {
             Fragment f = null;
-            if (item.getItemId() == R.id.nav_goals) f = new GoalsFragment();
-            else if (item.getItemId() == R.id.nav_history) f = new HistoryFragment();
+            int id = item.getItemId();
+
+            if (id == R.id.nav_home) {
+                f = new HomeFragment();
+            } else if (id == R.id.nav_goals) {
+                f = new GoalsFragment();
+            } else if (id == R.id.nav_history) {
+                f = new HistoryFragment();
+            }
 
             if (f != null) {
                 getSupportFragmentManager().beginTransaction()
