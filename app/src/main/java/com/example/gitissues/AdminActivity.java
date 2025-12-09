@@ -47,6 +47,12 @@ public class AdminActivity extends AppCompatActivity {
 
         findViewById(R.id.btnBack).setOnClickListener(v -> finish());
 
+        findViewById(R.id.fabAddUser).setOnClickListener(v -> {
+            // Open the new Register form
+            android.content.Intent intent = new android.content.Intent(this, RegisterActivity.class);
+            startActivity(intent);
+        });
+
         // 3. Load Data
         loadUsers();
     }
