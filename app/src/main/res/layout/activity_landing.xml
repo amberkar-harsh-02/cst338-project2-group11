@@ -248,6 +248,14 @@
                     </com.google.android.material.card.MaterialCardView>
                 </LinearLayout>
 
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/navigation_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"  android:fitsSystemWindows="true"
+            app:menu="@menu/your_menu_file_name" />
+    </androidx.drawerlayout.widget.DrawerLayout>
+
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_nav"
@@ -256,5 +264,7 @@
         android:layout_alignParentBottom="true"
         android:background="#FFFFFF"
         app:menu="@menu/bottom_nav_menu" />
+
+
 
 </RelativeLayout>
