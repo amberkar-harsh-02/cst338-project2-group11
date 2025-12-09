@@ -182,7 +182,7 @@
                     android:layout_height="8dp"
                     android:layout_marginTop="12dp"
                     android:progress="0"
-                    android:progressTint="@color/design_default_color_primary"
+                    android:progressTint="@color/colorMidBlue"
                     android:max="100" />
 
                 <LinearLayout
