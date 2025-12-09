@@ -58,4 +58,28 @@ public class BankingUnitTests {
         assertEquals("Account ID should match", 10, t.accountId);
     }
 
+
+    // ==========================================
+    // TONY'S TESTS (Account Model Logic)
+    // ==========================================
+
+    @Test
+    public void testAccountInitialization() {
+        // Goal: Verify that the Account object holds the correct balance and type
+        Account acc = new Account(1, "12345678901", "Checking", 1000.50);
+
+        assertEquals("Account Number should match", "12345678901", acc.accountNumber);
+        assertEquals("Balance should match", 1000.50, acc.balance, 0.001); // Delta for double comparison
+        assertEquals("Type should be Checking", "Checking", acc.accountType);
+    }
+
+    @Test
+    public void testSavingsAccountLogic() {
+        // Goal: Verify Savings account's specific data
+        Account savings = new Account(5, "98765432100", "Savings", 500.00);
+
+        // Asserts
+        assertEquals("User ID should match", 5, savings.userId);
+        assertEquals("Type should be Savings", "Savings", savings.accountType);
+    }
 }
