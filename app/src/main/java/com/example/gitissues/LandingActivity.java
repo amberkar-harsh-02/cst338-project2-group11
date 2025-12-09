@@ -38,7 +38,7 @@ public class LandingActivity extends AppCompatActivity {
         com.google.android.material.bottomnavigation.BottomNavigationView nav = findViewById(R.id.bottom_nav);
         nav.setOnItemSelectedListener(item -> {
             androidx.fragment.app.Fragment f;
-            if (item.getItemId() == R.id.nav_goals) {
+            if (item.getItemId() == R.id.nav_home) {
                 f = new GoalsFragment();
             } else {
                 f = new HistoryFragment();
