@@ -20,9 +20,19 @@ import ui.HomeFragment;
 import ui.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+/**
+ * The main activity hosting the application's primary fragments (Home, Goals, History).
+ * This activity manages the Bottom Navigation Bar and the top-right Profile Menu.
+ */
 public class LandingActivity extends AppCompatActivity {
 
     // --- INTENT FACTORY ---
+    /**
+     * Factory method to create an Intent to start this activity.
+     * This is the recommended practice for navigating to activities.
+     * @param context The context from which the Intent is started.
+     * @return An Intent configured to launch LandingActivity.
+     */
     public static Intent getIntent(Context context) {
         return new Intent(context, LandingActivity.class);
     }
@@ -64,6 +74,10 @@ public class LandingActivity extends AppCompatActivity {
         btnMenu.setOnClickListener(this::showPopupMenu);
     }
 
+    /**
+     * Creates and displays the PopupMenu for user options (Profile, Contact, Logout, Admin).
+     * @param view The anchor view for the popup (the ImageButton).
+     */
     private void showPopupMenu(View view) {
         PopupMenu popup = new PopupMenu(this, view);
         popup.getMenuInflater().inflate(R.menu.profile_options, popup.getMenu());
