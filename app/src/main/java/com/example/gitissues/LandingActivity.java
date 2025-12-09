@@ -3,13 +3,19 @@ package com.example.gitissues;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.PopupMenu;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 
 import ui.GoalsFragment;
 import ui.HistoryFragment;
+import ui.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class LandingActivity extends AppCompatActivity {
@@ -19,55 +25,82 @@ public class LandingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing);
 
-        // This pushes the content down/up so it doesn't overlap the battery or home bar.
-        androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.landing_root), (v, insets) -> {
-            androidx.core.graphics.Insets systemBars = insets.getInsets(androidx.core.view.WindowInsetsCompat.Type.systemBars());
+        // --- FIX FOR STATUS BAR OVERLAP ---
+        // This pushes the app content down so it doesn't sit under the camera/battery
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.landing_root), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        // -----------------------------------------------------
+        // ----------------------------------
 
-        // Load default fragment: Goals
+        // Load Default Fragment
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container, new GoalsFragment())
                     .commit();
         }
 
-        // Handle bottom navigation switching
-        com.google.android.material.bottomnavigation.BottomNavigationView nav = findViewById(R.id.bottom_nav);
+        // Bottom Nav Logic
+        BottomNavigationView nav = findViewById(R.id.bottom_nav);
         nav.setOnItemSelectedListener(item -> {
-            androidx.fragment.app.Fragment f;
-            if (item.getItemId() == R.id.nav_goals) {
-                f = new GoalsFragment();
-            } else {
-                f = new HistoryFragment();
-            }
+            Fragment f = null;
+            if (item.getItemId() == R.id.nav_goals) f = new GoalsFragment();
+            else if (item.getItemId() == R.id.nav_history) f = new HistoryFragment();
 
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, f)
-                    .commit();
+            if (f != null) {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, f)
+                        .commit();
+            }
             return true;
         });
 
-        // --- Logout Logic ---
-        android.widget.Button btnLogout = findViewById(R.id.btnLogout);
-        btnLogout.setOnClickListener(v -> {
-            Session.logout(this);
-            android.content.Intent intent = new android.content.Intent(this, LoginActivity.class);
-            intent.setFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK | android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
+        // Profile Popup Menu Logic
+        ImageButton btnMenu = findViewById(R.id.btnProfileMenu);
+        btnMenu.setOnClickListener(this::showPopupMenu);
+    }
+
+    private void showPopupMenu(View view) {
+        PopupMenu popup = new PopupMenu(this, view);
+        popup.getMenuInflater().inflate(R.menu.profile_options, popup.getMenu());
+
+        if (Session.isAdmin(this)) {
+            popup.getMenu().findItem(R.id.menu_admin).setVisible(true);
+        }
+
+        popup.setOnMenuItemClickListener(item -> {
+            int id = item.getItemId();
+
+            if (id == R.id.menu_profile) {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, new ProfileFragment())
+                        .addToBackStack(null)
+                        .commit();
+                return true;
+            }
+            else if (id == R.id.menu_contact) {
+                new AlertDialog.Builder(this)
+                        .setTitle("Contact Us")
+                        .setMessage("Customer Support:\n1-800-555-BANK\nsupport@bank.com")
+                        .setPositiveButton("OK", null)
+                        .show();
+                return true;
+            }
+            else if (id == R.id.menu_logout) {
+                Session.logout(this);
+                Intent intent = new Intent(this, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                return true;
+            }
+            else if (id == R.id.menu_admin) {
+                startActivity(new Intent(this, AdminActivity.class));
+                return true;
+            }
+            return false;
         });
 
-        // --- Admin Logic ---
-        android.widget.Button btnAdmin = findViewById(R.id.btnAdmin);
-        // Only show if Admin
-        if (Session.isAdmin(this)) {
-            btnAdmin.setVisibility(android.view.View.VISIBLE);
-            btnAdmin.setOnClickListener(v ->
-                    startActivity(new android.content.Intent(this, AdminActivity.class)));
-        } else {
-            btnAdmin.setVisibility(android.view.View.GONE);
-        }
+        popup.show();
     }
 }

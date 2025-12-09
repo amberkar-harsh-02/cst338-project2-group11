@@ -24,6 +24,8 @@ public interface UserDao {
     @Query("SELECT * FROM users WHERE userId = :id LIMIT 1")
     User getUserById(int id);
 
+    @androidx.room.Update
+    void update(User user);
     // New: Remove a user
     @Delete
     void delete(User user);

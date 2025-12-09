@@ -87,6 +87,13 @@ public class BankingRepository {
             return future.get();
         } catch (Exception e) { return null; }
     }
+    public void updateUser(User user) {
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            // We need to add an update method to UserDao first if strictly using DAO
+            // But since we are using Room, we can use @Update in DAO
+            userDao.update(user);
+        });
+    }
 
     public void deleteUser(User user) {
         AppDatabase.databaseWriteExecutor.execute(() -> userDao.delete(user));
