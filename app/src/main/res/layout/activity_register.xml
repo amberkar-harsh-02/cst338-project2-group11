@@ -116,7 +116,7 @@
             android:layout_height="wrap_content"
             android:text="Create Account"
             android:padding="12dp"
-            android:backgroundTint="@color/design_default_color_primary"
+            style="@style/PillButton"
             android:textColor="#FFF"/>
 
         <Button

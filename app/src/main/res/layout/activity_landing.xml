@@ -11,7 +11,7 @@
         android:id="@+id/headerBg"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="@color/design_default_color_primary"
+        android:background="@color/colorMonteBlue"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView

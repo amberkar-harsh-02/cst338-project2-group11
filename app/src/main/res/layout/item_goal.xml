@@ -9,8 +9,9 @@
     <ProgressBar
         android:id="@+id/progress"
         style="?android:attr/progressBarStyleHorizontal"
-        android:max="100" android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="100" />
 
     <TextView android:id="@+id/tvAmount"
         android:layout_width="wrap_content" android:layout_height="wrap_content"/>
