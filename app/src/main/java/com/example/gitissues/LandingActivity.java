@@ -135,11 +135,7 @@ public class LandingActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             }
-            else if (id == R.id.menu_admin) {
-                // USE FACTORY
-                startActivity(AdminActivity.getIntent(this));
-                return true;
-            }
+
             return false;
         });
 
