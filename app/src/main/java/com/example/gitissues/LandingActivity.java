@@ -15,9 +15,11 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 
 import ui.GoalsFragment;
+import ui.AdminHomeFragment;
 import ui.HistoryFragment;
 import ui.HomeFragment;
 import ui.ProfileFragment;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 /**
@@ -48,17 +50,38 @@ public class LandingActivity extends AppCompatActivity {
             return insets;
         });
 
+        BottomNavigationView nav = findViewById(R.id.bottom_nav);
+
         if (savedInstanceState == null) {
+            Fragment start;
+            if (Session.isAdmin(this)) {
+                // Admins See Admin panel as Home
+                start = new AdminHomeFragment();
+            } else {
+                // Normal users see account home
+                start = new HomeFragment();
+
+            }
+
+
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, new HomeFragment())
+                    .replace(R.id.fragment_container, start)
                     .commit();
+
+            nav.setSelectedItemId(R.id.nav_home);
         }
 
-        BottomNavigationView nav = findViewById(R.id.bottom_nav);
         nav.setOnItemSelectedListener(item -> {
             Fragment f = null;
             int id = item.getItemId();
-            if (id == R.id.nav_home) f = new HomeFragment();
+
+            if (id == R.id.nav_home){
+                if (Session.isAdmin(this)){
+                    f = new AdminHomeFragment(); //Adnim home
+                } else {
+                    f = new HomeFragment(); // normal user home
+                }
+            }
             else if (id == R.id.nav_goals) f = new GoalsFragment();
             else if (id == R.id.nav_history) f = new HistoryFragment();
 
