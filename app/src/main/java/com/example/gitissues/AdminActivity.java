@@ -48,7 +48,7 @@ public class AdminActivity extends AppCompatActivity {
         adapter = new UserAdapter(new ArrayList<>(), this::confirmDeleteUser);
         rv.setAdapter(adapter);
 
-        findViewById(R.id.btnBack).setOnClickListener(v -> finish());
+        //findViewById(R.id.btnBack).setOnClickListener(v -> finish());
 
         // USE FACTORY
         findViewById(R.id.fabAddUser).setOnClickListener(v -> {
