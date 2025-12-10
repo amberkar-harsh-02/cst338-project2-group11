@@ -1,5 +1,6 @@
 package adapters;
 
+import android.graphics.Color;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,7 +61,6 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
             super(itemView);
             tvContent = itemView.findViewById(R.id.tvMessageContent);
             tvSender = itemView.findViewById(R.id.tvMessageSender);
-            // We need the parent layout to change gravity (alignment)
             container = (LinearLayout) itemView;
         }
 
@@ -68,14 +68,17 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
             tvContent.setText(msg.text);
 
             if ("user".equals(msg.role)) {
-                // Align Right for User
+                // USER: Align Right, Purple Bubble, White Text
                 container.setGravity(Gravity.END);
-                tvContent.setBackgroundColor(0xFFDCF8C6); // Light Green
-                tvSender.setText("You");
+                tvContent.setBackgroundResource(R.drawable.bg_chat_user);
+                tvContent.setTextColor(Color.WHITE);
+                tvSender.setVisibility(View.GONE); // Hide "You" label for cleaner look
             } else {
-                // Align Left for Monte
+                // MONTE: Align Left, Gray Bubble, Black Text
                 container.setGravity(Gravity.START);
-                tvContent.setBackgroundColor(0xFFE0E0E0); // Gray
+                tvContent.setBackgroundResource(R.drawable.bg_chat_monte);
+                tvContent.setTextColor(Color.BLACK);
+                tvSender.setVisibility(View.VISIBLE);
                 tvSender.setText("Monte");
             }
         }

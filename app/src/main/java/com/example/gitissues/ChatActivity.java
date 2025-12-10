@@ -9,6 +9,9 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -47,14 +50,25 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-        // 1. Setup Gemini Model
-        // REPLACE WITH YOUR ACTUAL API KEY
-        GenerativeModel gm = new GenerativeModel("gemini-2.5-flash","AIzaSyC0eYQH0JZyo8ixg4IZQuIgzHSm1N3w2KE");
+        // --- 1. FIX STATUS BAR OVERLAP ---
+        // This adds padding to the top so the "Monte" header isn't hidden behind the camera
+        View headerView = findViewById(R.id.chatHeader);
+        if (headerView != null) {
+            ViewCompat.setOnApplyWindowInsetsListener(headerView, (v, insets) -> {
+                Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+                v.setPadding(v.getPaddingLeft(), systemBars.top + v.getPaddingTop(), v.getPaddingRight(), v.getPaddingBottom());
+                return insets;
+            });
+        }
+
+        // --- 2. Setup Gemini Model ---
+        // Uses the key you just generated and the correct 2.5-flash model
+        GenerativeModel gm = new GenerativeModel("gemini-2.5-flash", "AIzaSyC0eYQH0JZyo8ixg4IZQuIgzHSm1N3w2KE");
         model = GenerativeModelFutures.from(gm);
 
         repository = new BankingRepository(this);
 
-        // 2. Setup UI
+        // --- 3. Setup UI ---
         RecyclerView rv = findViewById(R.id.rvChatHistory);
         etInput = findViewById(R.id.etChatInput);
         ImageButton btnSend = findViewById(R.id.btnSendMessage);
@@ -64,10 +78,10 @@ public class ChatActivity extends AppCompatActivity {
         rv.setLayoutManager(new LinearLayoutManager(this));
         rv.setAdapter(adapter);
 
-        // 3. Load Financial Context (Background)
+        // --- 4. Load Financial Context (Background) ---
         loadUserContext();
 
-        // 4. Listeners
+        // --- 5. Listeners ---
         btnSend.setOnClickListener(v -> sendMessage());
         btnBack.setOnClickListener(v -> finish());
     }
@@ -102,7 +116,7 @@ public class ChatActivity extends AppCompatActivity {
 
             financialContext = sb.toString();
 
-            // Optional: Monte greeting
+            // Monte greeting
             runOnUiThread(() -> adapter.addMessage("model", "Hello " + username + "! I have reviewed your accounts. How can I help you today?"));
         }).start();
     }
@@ -130,7 +144,10 @@ public class ChatActivity extends AppCompatActivity {
                 runOnUiThread(() -> {
                     adapter.addMessage("model", resultText);
                     // Scroll to bottom
-                    findViewById(R.id.rvChatHistory).scrollTo(0, 0);
+                    RecyclerView rv = findViewById(R.id.rvChatHistory);
+                    if (rv != null) {
+                        rv.smoothScrollToPosition(adapter.getItemCount() - 1);
+                    }
                 });
             }
 
@@ -138,7 +155,7 @@ public class ChatActivity extends AppCompatActivity {
             public void onFailure(Throwable t) {
                 t.printStackTrace();
                 runOnUiThread(() -> {
-                    Toast.makeText(ChatActivity.this, "Monte is sleeping...", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ChatActivity.this, "Monte is sleeping... (Check Internet)", Toast.LENGTH_SHORT).show();
                 });
             }
         }, executor);
