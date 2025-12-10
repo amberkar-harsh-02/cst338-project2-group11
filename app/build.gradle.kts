@@ -54,4 +54,13 @@ dependencies {
     implementation("androidx.room:room-runtime:$room_version")
     implementation("androidx.room:room-ktx:$room_version")
     add("kapt", "androidx.room:room-compiler:$room_version")
+
+    // Google AI SDK
+    implementation("com.google.ai.client.generativeai:generativeai:0.9.0")
+    implementation("io.noties.markwon:core:4.6.2")
+
+    //Guava for ListenableFuture
+    implementation("com.google.guava:guava:31.1-android")
+
+    implementation("androidx.concurrent:concurrent-futures:1.1.0")
 }

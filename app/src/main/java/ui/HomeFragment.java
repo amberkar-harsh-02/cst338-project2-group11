@@ -80,6 +80,15 @@ public class HomeFragment extends Fragment {
         }
 
         loadDashboardData();
+
+        View btnMonte = view.findViewById(R.id.btnMonteChat);
+        if (btnMonte != null) {
+            btnMonte.setOnClickListener(v -> {
+                // Use the Factory Method we just created!
+                // We need to import com.example.gitissues.ChatActivity;
+                startActivity(com.example.gitissues.ChatActivity.getIntent(getContext()));
+            });
+        }
     }
 
     // =========================================================

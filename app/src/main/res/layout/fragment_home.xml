@@ -1,231 +1,263 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorLightishBlue"
-    android:padding="16dp">
+    android:background="#F5F5F5">
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center_horizontal">
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <TextView
-            android:id="@+id/tvWelcome"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Welcome Back!"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            android:textColor="#333"
-            android:layout_marginBottom="16dp"
-            android:paddingStart="4dp"/>
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
 
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="23dp"
-            app:cardElevation="8dp"
-            app:cardBackgroundColor="#FFFFFF">
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/tvWelcome"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
+                android:text="Welcome Back!"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textColor="#333"
+                android:layout_marginBottom="16dp"
+                android:paddingStart="4dp"/>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="23dp"
+                app:cardElevation="8dp"
+                app:cardBackgroundColor="#FFFFFF">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:baselineAligned="false"
-                    android:weightSum="2">
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-                    <com.google.android.material.card.MaterialCardView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginEnd="8dp"
-                        app:cardBackgroundColor="#E3F2FD"
-                        app:cardCornerRadius="16dp"
-                        app:cardElevation="0dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:padding="16dp">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Checking"
-                                android:textColor="#1565C0"
-                                android:textSize="14sp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:id="@+id/tvCheckingNumber"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="4dp"
-                                android:text="****"
-                                android:textColor="#555"
-                                android:textSize="12sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="12dp"
-                                android:text="Balance"
-                                android:textColor="#757575"
-                                android:textSize="11sp" />
-
-                            <TextView
-                                android:id="@+id/tvCheckingBalance"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="$0.00"
-                                android:textSize="18sp"
-                                android:textStyle="bold"
-                                android:textColor="#000"/>
-                        </LinearLayout>
-                    </com.google.android.material.card.MaterialCardView>
-
-                    <com.google.android.material.card.MaterialCardView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginStart="8dp"
-                        app:cardBackgroundColor="#E8F5E9"
-                        app:cardCornerRadius="16dp"
-                        app:cardElevation="0dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:padding="16dp">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Savings"
-                                android:textColor="#2E7D32"
-                                android:textSize="14sp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:id="@+id/tvSavingsNumber"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="4dp"
-                                android:text="****"
-                                android:textColor="#555"
-                                android:textSize="12sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="12dp"
-                                android:text="Balance"
-                                android:textColor="#757575"
-                                android:textSize="11sp" />
-
-                            <TextView
-                                android:id="@+id/tvSavingsBalance"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="$0.00"
-                                android:textSize="18sp"
-                                android:textStyle="bold"
-                                android:textColor="#000"/>
-                        </LinearLayout>
-                    </com.google.android.material.card.MaterialCardView>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="8dp">
-
-                    <Button
-                        android:id="@+id/btnQuickTransfer"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Transfer Money"
-                        android:backgroundTint="@color/colorMonteBlue"
-                        android:textColor="#FFFFFF"
-                        android:drawableLeft="@android:drawable/ic_menu_rotate"
-                        android:padding="12dp"/>
-                </LinearLayout>
+                        android:orientation="horizontal"
+                        android:baselineAligned="false"
+                        android:weightSum="2">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:text="Monthly Spending"
-                    android:textColor="#333"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="8dp"
+                            app:cardBackgroundColor="#E3F2FD"
+                            app:cardCornerRadius="16dp"
+                            app:cardElevation="0dp">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:padding="16dp">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Checking"
+                                    android:textColor="#1565C0"
+                                    android:textSize="14sp"
+                                    android:textStyle="bold" />
+                                <TextView
+                                    android:id="@+id/tvCheckingNumber"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="4dp"
+                                    android:text="****"
+                                    android:textColor="#555"
+                                    android:textSize="12sp" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="12dp"
+                                    android:text="Balance"
+                                    android:textColor="#757575"
+                                    android:textSize="11sp" />
+                                <TextView
+                                    android:id="@+id/tvCheckingBalance"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="$0.00"
+                                    android:textSize="18sp"
+                                    android:textStyle="bold"
+                                    android:textColor="#000"/>
+                            </LinearLayout>
+                        </com.google.android.material.card.MaterialCardView>
 
-                <ProgressBar
-                    android:id="@+id/pbBudgetProgress"
-                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="8dp"
-                    android:layout_marginTop="12dp"
-                    android:progress="0"
-                    android:progressTint="@color/colorMidBlue"
-                    android:max="100" />
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="8dp"
+                            app:cardBackgroundColor="#E8F5E9"
+                            app:cardCornerRadius="16dp"
+                            app:cardElevation="0dp">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:padding="16dp">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Savings"
+                                    android:textColor="#2E7D32"
+                                    android:textSize="14sp"
+                                    android:textStyle="bold" />
+                                <TextView
+                                    android:id="@+id/tvSavingsNumber"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="4dp"
+                                    android:text="****"
+                                    android:textColor="#555"
+                                    android:textSize="12sp" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="12dp"
+                                    android:text="Balance"
+                                    android:textColor="#757575"
+                                    android:textSize="11sp" />
+                                <TextView
+                                    android:id="@+id/tvSavingsBalance"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="$0.00"
+                                    android:textSize="18sp"
+                                    android:textStyle="bold"
+                                    android:textColor="#000"/>
+                            </LinearLayout>
+                        </com.google.android.material.card.MaterialCardView>
+                    </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/tvAmountSpent"
-                        android:layout_width="0dp"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="$0.00 Spent"
-                        android:textColor="#555"
-                        android:textSize="12sp" />
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="8dp">
+                        <Button
+                            android:id="@+id/btnQuickTransfer"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Transfer Money"
+                            android:backgroundTint="@color/design_default_color_primary"
+                            android:textColor="#FFFFFF"
+                            android:drawableLeft="@android:drawable/ic_menu_rotate"
+                            android:padding="12dp"/>
+                    </LinearLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Limit: $500.00"
-                        android:textColor="#555"
-                        android:textSize="12sp" />
+                        android:text="Monthly Spending"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:layout_marginTop="12dp"
+                        android:textColor="#333" />
+                    <ProgressBar
+                        android:id="@+id/pbBudgetProgress"
+                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="8dp"
+                        android:layout_marginTop="12dp"
+                        android:progress="0"
+                        android:progressTint="@color/design_default_color_primary"
+                        android:max="100" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:id="@+id/tvAmountSpent"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="$0.00 Spent"
+                            android:textColor="#555"
+                            android:textSize="12sp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Limit: $500.00"
+                            android:textColor="#555"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Recent Activity"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:layout_marginTop="24dp"
+                        android:layout_marginBottom="8dp"
+                        android:textColor="#333" />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvRecentTransactions"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false" />
+
                 </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Recent Activity"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:layout_marginTop="24dp"
-                    android:layout_marginBottom="8dp"
-                    android:textColor="#333" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="80dp"/>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvRecentTransactions"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:nestedScrollingEnabled="false" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/btnMonteChat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="24dp"
+        app:cardCornerRadius="25dp"
+        app:cardElevation="10dp"
+        app:cardBackgroundColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
-    </LinearLayout>
-</androidx.core.widget.NestedScrollView>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="8dp">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@android:drawable/ic_dialog_info"
+                app:tint="@color/design_default_color_primary"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Monte"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:textColor="@color/design_default_color_primary"/>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
