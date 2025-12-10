@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.gitissues.R;
+import com.example.gitissues.RegisterActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import adapters.UserAdapter;
@@ -67,8 +68,8 @@ public class AdminHomeFragment extends Fragment {
         FloatingActionButton fabAddUser = root.findViewById(R.id.fabAddUser);
         fabAddUser.setOnClickListener(v -> {
             // You can open a dialog or new screen here
-            // Example:
-            // new AddUserDialog().show(getParentFragmentManager(), "addUser");
+        startActivity(RegisterActivity.getIntent(requireContext()));
+
         });
     }
 
@@ -103,5 +104,12 @@ public class AdminHomeFragment extends Fragment {
                 }
             });
         });
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        loadUsers();
     }
 }
