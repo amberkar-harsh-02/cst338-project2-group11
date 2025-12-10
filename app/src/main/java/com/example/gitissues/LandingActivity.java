@@ -106,7 +106,7 @@ public class LandingActivity extends AppCompatActivity {
         popup.getMenuInflater().inflate(R.menu.profile_options, popup.getMenu());
 
         if (Session.isAdmin(this)) {
-            popup.getMenu().findItem(R.id.menu_admin).setVisible(true);
+            //popup.getMenu().findItem(R.id.menu_admin).setVisible(true);
         }
 
         popup.setOnMenuItemClickListener(item -> {
