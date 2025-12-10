@@ -8,7 +8,7 @@
     android:orientation="horizontal"
     android:gravity="center_vertical"
     android:padding="16dp"
-    android:background="?android:attr/selectableItemBackground">
+    android:background="@drawable/goal_item_background">
 
 
 
