@@ -10,8 +10,4 @@
         android:id="@+id/menu_logout"
         android:title="Log Out" />
 
-    <item
-        android:id="@+id/menu_admin"
-        android:title="Admin Dashboard"
-        android:visible="false" />
 </menu>
