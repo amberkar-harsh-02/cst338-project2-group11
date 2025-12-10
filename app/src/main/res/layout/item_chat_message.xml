@@ -19,14 +19,23 @@
         android:maxWidth="280dp"
         android:text="Hello!"/>
 
+
+    <ImageView
+        android:id="@+id/imglogo"
+        android:layout_width="34dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="2dp"
+        android:contentDescription="App Logo"
+        android:src="@drawable/monte_chat" />
+
     <TextView
         android:id="@+id/tvMessageSender"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Monte"
-        android:textSize="10sp"
-        android:textColor="#888888"
+        android:layout_height="15dp"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="4dp"
-        android:layout_marginStart="4dp"/>
+        android:text="Monte"
+        android:textColor="#888888"
+        android:textSize="10sp" />
 
 </LinearLayout>
